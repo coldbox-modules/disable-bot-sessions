@@ -1,27 +1,25 @@
 component {
 
-    property name="cookieStorage" inject="CookieStorage@cbstorages";
-    property name="CGIScope"      inject="CGIScope@disable-bot-sessions";
-    property name="helper"        inject="PlatformHelper@disable-bot-sessions";
+	property name="helper"      inject="PlatformHelper@disable-bot-sessions";
+	property name="bots"        inject="Bots@disable-bot-sessions";
+	property name="cookieCheck" inject="coldbox:setting:cookieCheck@disable-bot-sessions";
 
-    function configure() {
-        variables.bots = deserializeJSON(
-            fileRead( expandPath( "../config/bots.json" ) )
-        );
-    }
+	function preProcess() {
+		if ( notUsingCookies() || isLikelyBot() ) {
+			helper.setSessionTimeout( 0, 0, 0, 1 );
+		}
+	}
 
-    function preProcess() {
-        if ( notUsingCookies() || isLikelyBot() ) {
-            helper.setSessionTimeout( 0, 0, 0, 1 );
-        }
-    }
+	private function notUsingCookies() {
+		if ( !variables.cookieCheck ) {
+			return false;
+		}
 
-    private function notUsingCookies() {
-        return ! cookieStorage.exists( "CFID" ) || len( cookieStorage.getVar( "CFID" ) ) == 0;
-    }
+		return !structKeyExists( cookie, "CFID" ) || len( cookie[ "CFID" ] ) == 0;
+	}
 
-    private function isLikelyBot() {
-        return CGIScope.exists( CGI.HTTP_USER_AGENT );
-    }
+	private function isLikelyBot() {
+		return variables.bots.keyExists( CGI.HTTP_USER_AGENT );
+	}
 
 }

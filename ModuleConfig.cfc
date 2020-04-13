@@ -1,27 +1,34 @@
 component {
 
-    this.name = "disable-bot-sessions";
-    this.author = "Eric Peterson";
-    this.webUrl = "https://github.com/elpete/disable-bot-sessions";
-    this.mapping = "disable-bot-sessions";
-    this.autoMapModels = false;
-    this.dependencies = [ "cbstorages" ];
+	this.name          = "disable-bot-sessions";
+	this.author        = "Eric Peterson";
+	this.webUrl        = "https://github.com/elpete/disable-bot-sessions";
+	this.mapping       = "disable-bot-sessions";
+	this.autoMapModels = false;
+	this.dependencies  = [ "cbstorages" ];
 
-    function configure() {
-        interceptors = [
-            { class = "#moduleMapping#.interceptors.DisableBotSessions" }
-        ];
+	function configure() {
+		settings = {
+			"cookieCheck"  : true,
+			"botsJsonFile" : "#moduleMapping#/config/bots.json"
+		};
 
-        binder.map( "CGIScope@disable-bot-sessions" )
-            .to( "#moduleMapping#.models.CGIScope" );
-        binder.map( "PlatformHelper@disable-bot-sessions" )
-            .to( getPlatformHelperPath() );
-    }
+		binder.map( "PlatformHelper@disable-bot-sessions" ).to( getPlatformHelperPath() );
+		binder
+			.map( "Bots@disable-bot-sessions" )
+			.toValue( deserializeJSON( fileRead( expandPath( settings.botsJsonFile ) ) ) );
 
-    function getPlatformHelperPath() {
-        return server.keyExists( "lucee" ) ?
-            "#moduleMapping#.models.helpers.LuceeHelper" :
-            "#moduleMapping#.models.helpers.ACFHelper";
+		interceptors = [
+			{
+				"class" : "#moduleMapping#.interceptors.DisableBotSessions",
+				"name"  : "DisableBotSessions"
+			}
+		];
+	}
 
-    }
+
+	function getPlatformHelperPath() {
+		return server.keyExists( "lucee" ) ? "#moduleMapping#.models.helpers.LuceeHelper" : "#moduleMapping#.models.helpers.ACFHelper";
+	}
+
 }

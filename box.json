@@ -15,18 +15,21 @@
     "description":"Automatically disable sessions for likely bots",
     "type":"modules",
     "dependencies":{
-        "coldbox":"^4.3.0+188",
-        "cbstorages":"^1.4.0+19"
+        "cbstorages":"^2.1.0+45"
     },
     "devDependencies":{
-        "testbox":"^2.4.0+80"
+        "testbox":"^3.2.0+356",
+        "coldbox":"^5.6.2+1021"
     },
     "installPaths":{
-        "testbox":"testbox",
-        "coldbox":"tests/resources/app/coldbox",
-        "cbstorages":"modules/cbstorages"
+        "testbox":"testbox/",
+        "coldbox":"tests/resources/app/coldbox/",
+        "cbstorages":"modules/cbstorages/"
     },
-    "scripts":{},
+    "scripts":{
+        "format": "cfformat run interceptors/**/*.cfc,models/**/*.cfc,tests/specs/**/*.cfc,ModuleConfig.cfc --overwrite",
+        "format:check": "cfformat check interceptors/**/*.cfc,models/**/*.cfc,tests/specs/**/*.cfc,ModuleConfig.cfc --verbose"
+    },
     "ignore":[
         "**/.*",
         "test",
