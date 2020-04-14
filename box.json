@@ -1,6 +1,6 @@
 {
     "name":"disable-bot-sessions",
-    "version":"0.0.0",
+    "version":"2.0.0",
     "author":"Eric Peterson",
     "location":"forgeboxStorage",
     "homepage":"https://github.com/coldbox-modules/disable-bot-sessions",
@@ -15,7 +15,8 @@
     "description":"Automatically disable sessions for likely bots",
     "type":"modules",
     "dependencies":{
-        "cbstorages":"^2.1.0+45"
+        "cbstorages":"stable",
+        "coldbox":"stable"
     },
     "devDependencies":{
         "testbox":"^3.2.0+356",
@@ -27,8 +28,8 @@
         "cbstorages":"modules/cbstorages/"
     },
     "scripts":{
-        "format": "cfformat run interceptors/**/*.cfc,models/**/*.cfc,tests/specs/**/*.cfc,ModuleConfig.cfc --overwrite",
-        "format:check": "cfformat check interceptors/**/*.cfc,models/**/*.cfc,tests/specs/**/*.cfc,ModuleConfig.cfc --verbose"
+        "format":"cfformat run interceptors/**/*.cfc,models/**/*.cfc,tests/specs/**/*.cfc,ModuleConfig.cfc --overwrite",
+        "format:check":"cfformat check interceptors/**/*.cfc,models/**/*.cfc,tests/specs/**/*.cfc,ModuleConfig.cfc --verbose"
     },
     "ignore":[
         "**/.*",
